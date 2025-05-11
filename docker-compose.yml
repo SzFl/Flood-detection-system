@@ -1,0 +1,54 @@
+version: '3.8'
+
+networks:
+  model_network:
+    driver: bridge
+
+volumes:
+  FloodReader:
+
+services:
+
+  FloodReader:
+    image: flood-reader:1.0
+    container_name: FloodReader
+    restart: unless-stopped
+    ports:
+    - "11434:11434"
+    volumes:
+      - FloodReader:/root/.FloodReader
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    # networks:
+    #   - model_network
+
+  # server:
+  #   build:
+  #     context: .
+  #     dockerfile: DockerFiles/floodReader.Dockerfile
+  #   container_name: floodReader-api
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8000:8000"
+
+
+
+
+#   deepseek-api:
+#     build:
+#       context: .
+#       dockerfile: DockerFiles/deepseek.Dockerfile
+#     container_name: deepseek-api
+#     restart: unless-stopped
+#     ports:
+#       - "8000:8000"
+#     runtime: nvidia
+#     environment:
+#       - NVIDIA_VISIBLE_DEVICES=all
+
+  
+
+

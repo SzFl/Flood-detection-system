@@ -1,0 +1,7 @@
+FROM llama3:8b
+
+# Additional context for model
+SYSTEM ""
+
+# Control temperature (creativity)
+PARAMETER temperature 0.7
