@@ -1,4 +1,5 @@
 version: '3.8'
+name: FloodWarner
 
 networks:
   model_network:
@@ -6,12 +7,14 @@ networks:
 
 volumes:
   ollama:
-    external: true
 
 services:
 
   FloodReader:
-    image: ollama/ollama:0.6.8
+    image: floodwarner/floodreader:1.0.0
+    build:
+      context: .
+      dockerfile: DockerFiles/ModelServer.Dockerfile
     container_name: FloodReader
     restart: unless-stopped
     ports:
@@ -26,31 +29,3 @@ services:
     
     # networks:
     #   - model_network
-
-  # server:
-  #   build:
-  #     context: .
-  #     dockerfile: DockerFiles/floodReader.Dockerfile
-  #   container_name: floodReader-api
-  #   restart: unless-stopped
-  #   ports:
-  #     - "8000:8000"
-
-
-
-
-#   deepseek-api:
-#     build:
-#       context: .
-#       dockerfile: DockerFiles/deepseek.Dockerfile
-#     container_name: deepseek-api
-#     restart: unless-stopped
-#     ports:
-#       - "8000:8000"
-#     runtime: nvidia
-#     environment:
-#       - NVIDIA_VISIBLE_DEVICES=all
-
-  
-
-

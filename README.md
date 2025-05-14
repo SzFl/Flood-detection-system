@@ -16,5 +16,5 @@ All steps needs to be done to work on project.
 
 ## Docker
 
-1. Run 'bash make_image.sh'. It is necessary to create image used in this project.
+1. Just run 'docker-compose up'.
 
