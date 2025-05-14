@@ -5,23 +5,25 @@ networks:
     driver: bridge
 
 volumes:
-  FloodReader:
+  ollama:
+    external: true
 
 services:
 
   FloodReader:
-    image: flood-reader:1.0
+    image: ollama/ollama:0.6.8
     container_name: FloodReader
     restart: unless-stopped
     ports:
     - "11434:11434"
     volumes:
-      - FloodReader:/root/.FloodReader
+      - ollama:/root/.ollama
     deploy:
       resources:
         reservations:
           devices:
             - capabilities: [gpu]
+    
     # networks:
     #   - model_network
 
