@@ -1,12 +1,4 @@
-import sys
-print("Python import search path (sys.path):")
-for idx, p in enumerate(sys.path):
-    print(f"{idx:2d}: {p!r}")
-
-
-import os, sys
-print("cwd         =", os.getcwd())
-print("sys.path[0] =", sys.path[0])
+import pandas as pd
 
 from facades.FloodReaderFacade import FloodReaderFacade
 from models.FloodYes import FloodYes
@@ -14,10 +6,9 @@ from models.FloodNo import FloodNo
 
 floodReaderFacade = FloodReaderFacade()
 
-messages : list = []
 
-with open('./tests/test_good_tweets.txt', 'r') as file:
-    messages = file.readlines()
+
+messages = pd.read_csv('Server_source/tests/messages.csv')
 
 for index, message in enumerate(messages):
     print('[] [] [] []' + str(index))
