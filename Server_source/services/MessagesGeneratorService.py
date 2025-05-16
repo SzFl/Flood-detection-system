@@ -75,7 +75,7 @@ class MessagesGeneratorService():
                 "Exploring local museums can be a great way to spend a day."
             ])
         
-    def generate_messeges(self,file_path:str) -> None:
+    def generate_messeges(self,path_to_input_folder:str) -> None:
         messages = []
         for _ in range(self.flood_count):
             messages.append((1, self.generate_flood_message()))
@@ -89,5 +89,5 @@ class MessagesGeneratorService():
         df = pd.DataFrame(messages, columns=['is_about_flood', 'message'])
 
         # Save to CSV
-        file_path = 'Server_source/gata/test_messages.csv'
-        df.to_csv(file_path, sep=';', index=False, header=['is_about_flood', 'message'], quoting=1)
+        path_to_save = path_to_input_folder + '/test_messages.csv'
+        df.to_csv(path_to_save, sep=';', index=False, header=['is_about_flood', 'message'], quoting=1)

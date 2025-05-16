@@ -1,5 +1,6 @@
 import feedparser
 import pandas as pd
+from bs4 import BeautifulSoup
 
 class RssFeedFacade():
 
@@ -17,7 +18,7 @@ class RssFeedFacade():
         ]
         self.max_per_feed = 10
 
-    def fetch_rss_messages(self,file_path:str) -> None:
+    def fetch_rss_messages(self,path_to_input_folder:str) -> None:
 
         messages = []
 
@@ -27,13 +28,31 @@ class RssFeedFacade():
 
                 for entry in feed.entries[:self.max_per_feed]:
                     # pick summary → description → title
-                    msg = getattr(entry, "summary", None) \
+                    raw_html = getattr(entry, "summary", None) \
                         or getattr(entry, "description", None) \
                         or entry.title
-                    messages.append({"message": msg})
+                    
+                    cleaned_message = self.clean_html(raw_html)
+                    messages.append({"message": cleaned_message})
 
-            except:
-                print("An exception occurred")
+            except Exception as e:
+                print(f"An error occurred: {e}")
 
         df = pd.DataFrame(messages, columns=["message"])
-        df.to_csv(file_path, index=False, encoding="utf-8")
+
+        file_path = path_to_input_folder + '/rss_messages.csv'
+        df.to_csv(file_path, index=False, encoding="utf-8",sep=';', quoting=1)
+
+    def clean_html(self, html_content):
+        soup = BeautifulSoup(html_content, "html.parser")
+
+        # Remove all <a> tags (links)
+        for a_tag in soup.find_all("a"):
+            a_tag.decompose()
+
+        # Remove all <img> tags (images)
+        for img_tag in soup.find_all("img"):
+            img_tag.decompose()
+
+        # Extract and return the cleaned text
+        return soup.get_text(separator=" ", strip=True)
