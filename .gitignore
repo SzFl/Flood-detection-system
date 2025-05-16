@@ -1,3 +1,5 @@
 /Server_source/.venv
 __pycache__
 __init__.py
+*.csv
+.env
