@@ -33,9 +33,11 @@ class RssFeedFacade():
                         or getattr(entry, "description", None) \
                         or entry.title
                     
+                    
                     cleaned_message = self.clean_html(raw_html)
-                    cleaned_message = re.sub(r"[^\x20-\x7E]+", "", cleaned_message)
-                    messages.append({"message": cleaned_message})
+                    cleaned = "".join(ch for ch in cleaned_message if ch.isalnum() or ch.isspace())
+                    #cleaned_message = re.sub(r"[^\x20-\x7E]+", "", cleaned_message)
+                    messages.append({"message": cleaned})
 
             except Exception as e:
                 print(f"An error occurred: {e}")
