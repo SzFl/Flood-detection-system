@@ -1,6 +1,7 @@
 import feedparser
 import pandas as pd
 from bs4 import BeautifulSoup
+import re
 
 class RssFeedFacade():
 
@@ -16,10 +17,10 @@ class RssFeedFacade():
             "https://www.tvn24.pl/najwazniejsze.xml",
             "http://rss.gazeta.pl/pub/rss/gazetawyborcza_kraj.xml",
         ]
-        self.max_per_feed = 10
+        self.max_per_feed = 2
 
     def fetch_rss_messages(self,path_to_input_folder:str) -> None:
-
+        print('[Info][RssFeedFacade]: fetch_rss_messages() start')
         messages = []
 
         for url in self.feed_urls:
@@ -33,6 +34,7 @@ class RssFeedFacade():
                         or entry.title
                     
                     cleaned_message = self.clean_html(raw_html)
+                    cleaned_message = re.sub(r"[^\x20-\x7E]+", "", cleaned_message)
                     messages.append({"message": cleaned_message})
 
             except Exception as e:
@@ -42,6 +44,7 @@ class RssFeedFacade():
 
         file_path = path_to_input_folder + '/rss_messages.csv'
         df.to_csv(file_path, index=False, encoding="utf-8",sep=';', quoting=1)
+        print('[Info][RssFeedFacade]: fetch_rss_messages() end')
 
     def clean_html(self, html_content):
         soup = BeautifulSoup(html_content, "html.parser")

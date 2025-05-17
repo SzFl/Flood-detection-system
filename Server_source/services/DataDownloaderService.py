@@ -14,6 +14,7 @@ class DataDownloaderService():
         self.tweeterFacade = TweeterFacade()
 
     def download_data(self,path_to_folder:str) -> str:
+        print('[Info][DataDownloaderService]: download_data() start')
         
         x = datetime.datetime.now()
         folder_name = x.strftime("%Y-%m-%d_%H:%M:%S")
@@ -31,6 +32,7 @@ class DataDownloaderService():
 
         self.messagesGeneratorService.generate_messeges(path_to_input_folder)
         self.rssFeedFacade.fetch_rss_messages(path_to_input_folder)
-        self.tweeterFacade.download_tweets(10,path_to_input_folder)
+        #self.tweeterFacade.download_tweets(10,path_to_input_folder) # Uncomment this.
 
+        print('[Info][DataDownloaderService]: download_data() end')
         return path_to_input_folder

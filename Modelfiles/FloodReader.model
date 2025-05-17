@@ -18,7 +18,10 @@ If it is about flooding, reply with JSON exactly matching this schema:
 If it is NOT about flooding, reply with JSON exactly matching this schema:
 {
   "is_flood": false,
-  "reason": "<why you think it’s not about flooding>",
+  "what": "leave empty",
+  "where": "leave empty",
+  "when": "leave empty",
+  "impact": "leave empty",
   "tweet_text": "<put here original message>"
 }
 

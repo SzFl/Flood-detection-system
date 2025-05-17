@@ -16,7 +16,7 @@ class TweeterFacade():
         self.client = Client(bearer_token=developer_bearer_token)
 
     def download_tweets(self,no_tweets:int,path_to_input_folder:str) -> None:
-
+        print('[Info][TweeterFacade]: download_tweets() start')
         query = (
             "(\"powódź\" OR \"powodzie\" OR \"zalanie\" OR \"podtopienie\" OR \"podtopienia\" OR \"flood\" OR \"floods\")"
             "context:66.850073441055133696 "
@@ -41,4 +41,6 @@ class TweeterFacade():
             df.to_csv(path_to_save, index=False, sep=';', quoting=1)
 
         except Exception as e:
-            print(f"An error occurred: {e}")
+            print(f'[Erro][TweeterFacade]: download_tweets() {e}')
+
+        print('[Info][TweeterFacade]: download_tweets() end')

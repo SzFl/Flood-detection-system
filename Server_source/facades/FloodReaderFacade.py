@@ -2,6 +2,7 @@ from typing import Union
 from ollama import chat, ChatResponse
 from pydantic import ValidationError
 
+from models.Flood import Flood
 from models.FloodYes import FloodYes
 from models.FloodNo import FloodNo
 
@@ -23,10 +24,14 @@ class FloodReaderFacade():
                     'content':tweet
                 }
             ],
-            stream=False
+            stream=False,
+            format=Flood.model_json_schema()
         )
 
         raw = response.message.content.strip()
+
+        return Flood.model_validate_json(raw)
+
 
         for Model in (FloodYes, FloodNo):
             try:

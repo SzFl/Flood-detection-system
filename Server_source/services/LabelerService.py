@@ -4,12 +4,16 @@ class LabelerService():
     
 
     def label_tweets(self,path_to_input_folder:str) -> None:
+        print('[Info][LabelerService]: label_tweets() start')
         path_to_rss_file = path_to_input_folder + '/tweeter_messages.csv'
         self.add_labels(path_to_rss_file)
+        print('[Info][LabelerService]: label_tweets() end')
 
     def label_rss(self,path_to_input_folder:str) -> None:
+         print('[Info][LabelerService]: label_rss() start')
          path_to_rss_file = path_to_input_folder + '/rss_messages.csv'
          self.add_labels(path_to_rss_file)
+         print('[Info][LabelerService]: label_rss() end')
 
     def add_labels(self,path_to_file:str) -> None:
         try:
@@ -34,12 +38,11 @@ class LabelerService():
                          print('Wrong value! Repeat answear')
                          incorrect = True
                      
-
             df.insert(loc = 0, column = 'is_about_flood', value = is_about_flood)
 
             df.to_csv(path_to_file, index=False, encoding="utf-8",sep=';', quoting=1)
 
         except Exception as e:
-                print(f"An error occurred: {e}")
+                print(f'[Erro][LabelerService]: add_labels() {e}')
 
 
