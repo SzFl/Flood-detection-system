@@ -5,7 +5,7 @@ class MessagesGeneratorService():
 
     def __init__(self):
         # Number of messages
-        self.total_messages = 500
+        self.total_messages = 20
         self.flood_count = self.total_messages // 3  # approximately 1/3
         self.non_flood_count = self.total_messages - self.flood_count
 
@@ -76,6 +76,7 @@ class MessagesGeneratorService():
             ])
         
     def generate_messeges(self,path_to_input_folder:str) -> None:
+        print('[Info][MessagesGeneratorService]: generate_messeges() start')
         messages = []
         for _ in range(self.flood_count):
             messages.append((1, self.generate_flood_message()))
@@ -91,3 +92,4 @@ class MessagesGeneratorService():
         # Save to CSV
         path_to_save = path_to_input_folder + '/test_messages.csv'
         df.to_csv(path_to_save, sep=';', index=False, header=['is_about_flood', 'message'], quoting=1)
+        print('[Info][MessagesGeneratorService]: generate_messeges() end')
