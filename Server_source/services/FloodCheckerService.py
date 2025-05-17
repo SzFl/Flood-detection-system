@@ -3,23 +3,26 @@ from os.path import isfile, join
 
 import pandas as pd
 
+from models.PipeStage import PipeStage
 from models.FloodNo import FloodNo
 from models.FloodYes import FloodYes
 from facades.FloodReaderFacade import FloodReaderFacade
 
-class FloodCheckerService():
+class FloodCheckerService(PipeStage):
 
     def __init__(self):
          self.floodReaderFacade = FloodReaderFacade()
 
+    def flow(self,path_to_input_folder:str):
+        print('[Info][FloodCheckerService]: start')
+        self.indentify(path_to_input_folder)
+        print('[Info][FloodCheckerService]: end')
+
     def indentify(self,path_to_input_folder:str):
-        print('[Info][FloodCheckerService]: indentify() start')
         files = [f for f in listdir(path_to_input_folder) if isfile(join(path_to_input_folder, f))]
 
         for file in files:
-            self.indentify_for_file(path_to_input_folder,file)
-
-        print('[Info][FloodCheckerService]: indentify() end')
+            self.indentify_for_file(path_to_input_folder,file) 
 
     def indentify_for_file(self,path_to_input_folder:str,file_name:str):
         print(f'[Info][FloodCheckerService] indentify_for_file() Starts: {file_name}')

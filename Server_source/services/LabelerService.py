@@ -1,19 +1,21 @@
+from models.PipeStage import PipeStage
 import pandas as pd
 
-class LabelerService():
-    
+class LabelerService(PipeStage):
+
+    def flow(self,path_to_input_folder:str):
+        print('[Info][LabelerService]: start')
+        self.label_tweets(path_to_input_folder)
+        self.label_rss(path_to_input_folder)
+        print('[Info][LabelerService]: end')
 
     def label_tweets(self,path_to_input_folder:str) -> None:
-        print('[Info][LabelerService]: label_tweets() start')
         path_to_rss_file = path_to_input_folder + '/tweeter_messages.csv'
         self.add_labels(path_to_rss_file)
-        print('[Info][LabelerService]: label_tweets() end')
-
+        
     def label_rss(self,path_to_input_folder:str) -> None:
-         print('[Info][LabelerService]: label_rss() start')
          path_to_rss_file = path_to_input_folder + '/rss_messages.csv'
          self.add_labels(path_to_rss_file)
-         print('[Info][LabelerService]: label_rss() end')
 
     def add_labels(self,path_to_file:str) -> None:
         try:

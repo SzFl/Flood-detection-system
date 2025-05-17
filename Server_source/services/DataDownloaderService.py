@@ -3,36 +3,25 @@ import os
 
 from facades.RssFeedFacade import RssFeedFacade
 from facades.TweeterFacade import TweeterFacade
+from models.PipeStage import PipeStage
 from services.MessagesGeneratorService import MessagesGeneratorService
 
 
-class DataDownloaderService():
+class DataDownloaderService(PipeStage):
 
     def __init__(self):
         self.messagesGeneratorService = MessagesGeneratorService()
         self.rssFeedFacade = RssFeedFacade()
         self.tweeterFacade = TweeterFacade()
+    
+    def flow(self,path_to_input_folder):
+        print('[Info][DataDownloaderService]: start')
+        self.download_data(path_to_input_folder)
+        print('[Info][DataDownloaderService]: end')
 
     def download_data(self,path_to_folder:str) -> str:
-        print('[Info][DataDownloaderService]: download_data() start')
         
-        x = datetime.datetime.now()
-        folder_name = x.strftime("%Y-%m-%d_%H:%M:%S")
+        self.messagesGeneratorService.generate_messeges(path_to_folder)
+        self.rssFeedFacade.fetch_rss_messages(path_to_folder)
+        #self.tweeterFacade.download_tweets(10,path_to_folder) # Uncomment this.
 
-        path_to_input_folder = path_to_folder + '/' + folder_name
-
-        try:
-            os.mkdir(path_to_input_folder)
-        except FileExistsError:
-            print(f"Directory '{path_to_input_folder}' already exists.")
-        except PermissionError:
-            print(f"Permission denied: Unable to create '{path_to_input_folder}'.")
-        except Exception as e:
-            print(f"An error occurred: {e}")
-
-        self.messagesGeneratorService.generate_messeges(path_to_input_folder)
-        self.rssFeedFacade.fetch_rss_messages(path_to_input_folder)
-        #self.tweeterFacade.download_tweets(10,path_to_input_folder) # Uncomment this.
-
-        print('[Info][DataDownloaderService]: download_data() end')
-        return path_to_input_folder
