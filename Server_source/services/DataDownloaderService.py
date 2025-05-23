@@ -1,18 +1,15 @@
-import datetime
-import os
-
 from facades.RssFeedFacade import RssFeedFacade
 from facades.TweeterFacade import TweeterFacade
 from models.PipeStage import PipeStage
+from services.DataLoader import DataLoader
+from services.KaggleDataLoadingService import KaggleDataLoadingService
 from services.MessagesGeneratorService import MessagesGeneratorService
 
 
 class DataDownloaderService(PipeStage):
 
-    def __init__(self):
-        self.messagesGeneratorService = MessagesGeneratorService()
-        self.rssFeedFacade = RssFeedFacade()
-        self.tweeterFacade = TweeterFacade()
+    def __init__(self,services:list[DataLoader]):
+        self.loadServices = services
     
     def flow(self,path_to_input_folder):
         print('[Info][DataDownloaderService]: start')
@@ -20,8 +17,6 @@ class DataDownloaderService(PipeStage):
         print('[Info][DataDownloaderService]: end')
 
     def download_data(self,path_to_folder:str) -> str:
-        
-        self.messagesGeneratorService.generate_messeges(path_to_folder)
-        self.rssFeedFacade.fetch_rss_messages(path_to_folder)
-        #self.tweeterFacade.download_tweets(10,path_to_folder) # Uncomment this.
+        for service in self.loadServices:
+            service.load(path_to_folder)
 

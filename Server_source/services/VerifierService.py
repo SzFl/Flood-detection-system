@@ -20,7 +20,7 @@ class VerifierService(PipeStage):
 
         print('Verification results for each source.')
         print('-------------------------------------')
-        print(f"{'Source':<20} | {'Match':>10} | {'Total':>10} | {'Ratio (Match/Total)':>10}")
+        print(f"{'Source':<20} | {'Correct':>10} | {'Total':>10} | {'Ratio (Correct/Total)':>10}")
 
         for key, value in verification_results.items():
             match = value[0]
@@ -32,7 +32,7 @@ class VerifierService(PipeStage):
             all_totals = all_totals + total
 
         print('-------------------------------------')
-        print(f"{'All Matches':<10} | {'All Total':>10} | {'Ratio (All Match / All Total)':>10}")
+        print(f"{'All Correct':<10} | {'All Total':>10} | {'Ratio (All Correct / All Total)':>10}")
         print(f"{all_matches:<10} | {all_totals:>10} | {all_matches / all_totals:>10}")
 
 

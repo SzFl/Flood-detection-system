@@ -3,9 +3,15 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import re
 
-class RssFeedFacade():
+from services.DataLoader import DataLoader
 
-    def __init__(self):
+class RssFeedFacade(DataLoader):
+
+    def load(self,path_to_folder:str):
+        print('RssFeedFacade')
+        self.fetch_rss_messages(path_to_folder)
+
+    def __init__(self,message_per_feed):
         self.feed_urls = [
             "https://media2.pl/rss/tag/agora.xml",
             "https://media2.pl/rss/tag/polskie-radio.xml",
@@ -17,7 +23,7 @@ class RssFeedFacade():
             "https://www.tvn24.pl/najwazniejsze.xml",
             "http://rss.gazeta.pl/pub/rss/gazetawyborcza_kraj.xml",
         ]
-        self.max_per_feed = 2
+        self.max_per_feed = message_per_feed
 
     def fetch_rss_messages(self,path_to_input_folder:str) -> None:
         print('[Info][RssFeedFacade]: fetch_rss_messages() start')

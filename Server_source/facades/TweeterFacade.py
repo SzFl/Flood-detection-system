@@ -4,9 +4,16 @@ import pandas as pd
 from tweepy import Client
 from dotenv import load_dotenv
 
-class TweeterFacade():
+from services.DataLoader import DataLoader
 
-    def __init__(self):
+class TweeterFacade(DataLoader):
+
+    def load(self,path_to_folder:str):
+        print('TweeterFacade')
+        self.download_tweets(path_to_folder)
+
+    def __init__(self,no_tweets:int):
+        self.no_tweets = no_tweets
         load_dotenv(dotenv_path=".env")
 
         developer_bearer_token = os.getenv("TWEETER_BEARER_TOKEN")
@@ -15,7 +22,7 @@ class TweeterFacade():
 
         self.client = Client(bearer_token=developer_bearer_token)
 
-    def download_tweets(self,no_tweets:int,path_to_input_folder:str) -> None:
+    def download_tweets(self,path_to_input_folder:str) -> None:
         print('[Info][TweeterFacade]: download_tweets() start')
         query = (
             "(\"powódź\" OR \"powodzie\" OR \"zalanie\" OR \"podtopienie\" OR \"podtopienia\" OR \"flood\" OR \"floods\")"
@@ -30,7 +37,7 @@ class TweeterFacade():
                 tweet_fields=["created_at", "lang", "context_annotations"],
                 expansions=["author_id"],
                 user_fields=["username", "location"],
-                max_results=no_tweets
+                max_results=self.no_tweets
             )
 
             texts = [t.data["text"] for t in tweets.data]

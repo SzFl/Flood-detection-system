@@ -1,11 +1,16 @@
 import pandas as pd
 import random
 
-class MessagesGeneratorService():
+from services.DataLoader import DataLoader
 
-    def __init__(self):
-        # Number of messages
-        self.total_messages = 20
+class MessagesGeneratorService(DataLoader):
+
+    def load(self,path_to_folder:str):
+        print('MessagesGeneratorService')
+        self.generate_messeges(path_to_folder)
+
+    def __init__(self,total_messages):
+        self.total_messages = total_messages
         self.flood_count = self.total_messages // 3  # approximately 1/3
         self.non_flood_count = self.total_messages - self.flood_count
 
