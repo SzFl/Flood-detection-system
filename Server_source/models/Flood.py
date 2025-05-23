@@ -9,6 +9,16 @@ class Flood(BaseModel):
     impact:     Optional[str] = Field("", description="Short descipion of results e.g what was destroyed, if people were injured etc., if provided")
     tweet_text: str
 
+    def to_dict(self):
+        return {
+            'is_flood': self.is_flood,
+            'what': str(self.what),
+            'where': str(self.where),
+            'when': str(self.when),
+            'impact': str(self.impact),
+            'tweet_text': str(self.tweet_text)
+        }
+
     def print(self) -> None:
         print('### FloodYes')
         print(f'is_flood: {str(self.is_flood)}')

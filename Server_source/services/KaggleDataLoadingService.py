@@ -21,12 +21,12 @@ class KaggleDataLoadingService(DataLoader):
 
         df['message'] = (
             df['text']
-            .str.replace(r'[^A-Za-z0-9# ]+', '', regex=True)
+            .str.replace(r'[^A-Za-z0-9#. ]+', '', regex=True)
         )
 
         output = df[['is_about_flood','message']]
 
-        output_subset = output.sample(n=self.no_rows_to_analysis, random_state=42)
+        output_subset = output.sample(n=self.no_rows_to_analysis, random_state=42).reset_index(drop=True)
 
         file_path = path_to_folder + '/kaggle_messages.csv'
-        output_subset.to_csv(file_path,sep=';',quoting=1)
+        output_subset.to_csv(file_path,sep=';',quoting=1,index=False)

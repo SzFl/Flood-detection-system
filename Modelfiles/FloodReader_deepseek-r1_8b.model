@@ -1,0 +1,40 @@
+FROM deepseek-r1:8b
+
+# Additional context for model
+SYSTEM """
+You will get a message.
+First, check whether it is about flooding. We are looking for literal flooding with water and not a metaphorical.
+
+If it is about flooding, reply with JSON exactly matching this schema:
+{
+  "is_flood": true,
+  "what": "<Short description of what happened e.g. dam colapsed, building are in water etc.>",
+  "where": "<location, if any>",
+  "when": "<date or time reference, if any>",
+  "impact": "<Short descipion of results e.g what was destroyed, if people were injured etc., if any>",
+  "tweet_text": "<put here original message>"
+}
+
+If it is NOT about flooding, reply with JSON exactly matching this schema:
+{
+  "is_flood": false,
+  "what": "leave empty",
+  "where": "leave empty",
+  "when": "leave empty",
+  "impact": "leave empty",
+  "tweet_text": "<put here original message>"
+}
+
+Return ONLY JSON. No additional text!
+"""
+
+#TEMPLATE """\
+#<|im_start|>system
+#{{ .System }}<|im_end|>
+#<|im_start|>user
+#{{ .Prompt }}<|im_end|>
+#<|im_start|>assistant
+#"""
+
+# Control temperature (creativity)
+PARAMETER temperature 0.7

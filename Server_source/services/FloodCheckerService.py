@@ -10,8 +10,9 @@ from facades.FloodReaderFacade import FloodReaderFacade
 
 class FloodCheckerService(PipeStage):
 
-    def __init__(self):
+    def __init__(self,chat_name:str):
          self.floodReaderFacade = FloodReaderFacade()
+         self.chat_name = chat_name
 
     def flow(self,path_to_input_folder:str):
         print('[Info][FloodCheckerService]: start')
@@ -34,20 +35,26 @@ class FloodCheckerService(PipeStage):
             df = pd.read_csv(path_to_input_file,sep=';')
 
             predictions = []
+            responses = []
             
             for index, row in df.iterrows():
                 print(f'[Info][FloodCheckerService] indentify_for_file() {index}')
                 message = row['message']
-                response = self.floodReaderFacade.ask_floodreader(message)
+                response = self.floodReaderFacade.ask_floodreader(message,self.chat_name)
 
                 if response.is_flood:
                     predictions.append("1")
                 else:
                     predictions.append("0")
+
+                responses.append(response)
             
             df.insert(loc = 0, column = 'predictions', value = predictions)
-
             df.to_csv(path_to_input_file, index=False, encoding="utf-8",sep=';', quoting=1)
+
+            resp_df = pd.DataFrame([response.to_dict() for response in responses])
+            resp_path = path_to_input_folder+'/'+file_name[:-4] + '_response.csv'
+            resp_df.to_csv(resp_path, index=False, encoding="utf-8",sep=';', quoting=1)
 
             print(f'[Info][FloodCheckerService] indentify_for_file() Ends: {file_name}')
 

@@ -10,14 +10,14 @@ FloodResult = Union[FloodYes, FloodNo]
 
 class FloodReaderFacade():
 
-    def ask_floodreader(self, tweet: str) -> FloodResult:
+    def ask_floodreader(self, tweet: str,chat_name) -> FloodResult:
         """
         Sends a tweet to your FloodReader model (configured with a baked-in SYSTEM prompt),
         parses the JSON reply, and validates it against FloodYes/FloodNo.
         """
 
         response: ChatResponse = chat(
-            model='FloodReader',
+            model=chat_name,
             messages=[
                 {
                     'role':'user',
@@ -31,14 +31,7 @@ class FloodReaderFacade():
         raw = response.message.content.strip()
 
         return Flood.model_validate_json(raw)
-
-
-        for Model in (FloodYes, FloodNo):
-            try:
-                return Model.model_validate_json(raw)
-            except ValidationError:
-                continue
-        raise ValueError(f"Output did not match any schema:\n{raw}")
+    
 
 
 

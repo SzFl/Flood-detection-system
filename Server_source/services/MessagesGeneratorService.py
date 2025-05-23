@@ -16,7 +16,7 @@ class MessagesGeneratorService(DataLoader):
 
     def generate_flood_message(self):
         times = ["5:00 today", "12:00", "6:30 this morning", "18:00 last night", "3:15 AM"]
-        locations = ["Wistula river in Dobrzannsk city", "our little town", "the northern valley", "the downtown area", "the old district"]
+        locations = ["Wistula river in Dobrzannsk city", "our little town Michalowice", "the northern valley of Klodzko", "the downtown area in Radom", "the old district in Krakow"]
         events = ["dam collapsed", "levee broke", "river overflowed", "storm surge hit", "flash flood occurred"]
         templates = [
             f"The dam on {random.choice(locations)} have just {random.choice(events)}.",
