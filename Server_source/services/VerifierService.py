@@ -60,7 +60,7 @@ class VerifierService(PipeStage):
         }
 
         result_path = path_to_input_folder + '/result.csv'
-        pd.DataFrame(results).to_csv(result_path,sep=';',quoting=1)
+        pd.DataFrame(results).to_csv(result_path,sep=';',quoting=1,index=False)
 
 
     def check_all_files(self,path_to_input_folder) -> dict:

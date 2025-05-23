@@ -9,7 +9,8 @@ class MessagesGeneratorService(DataLoader):
         print('MessagesGeneratorService')
         self.generate_messeges(path_to_folder)
 
-    def __init__(self,total_messages):
+    def __init__(self,total_messages,random_seed:int):
+        self.random_seed=random_seed
         self.total_messages = total_messages
         self.flood_count = self.total_messages // 3  # approximately 1/3
         self.non_flood_count = self.total_messages - self.flood_count
@@ -83,6 +84,7 @@ class MessagesGeneratorService(DataLoader):
     def generate_messeges(self,path_to_input_folder:str) -> None:
         print('[Info][MessagesGeneratorService]: generate_messeges() start')
         messages = []
+        random.seed(self.random_seed)
         for _ in range(self.flood_count):
             messages.append((1, self.generate_flood_message()))
         for _ in range(self.non_flood_count):

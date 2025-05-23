@@ -10,7 +10,8 @@ from services.DataDownloaderService import DataDownloaderService
 from services.FloodCheckerService import FloodCheckerService
 
 # loaders preparation
-messagesGeneratorService = MessagesGeneratorService(total_messages=20)
+random_seed = 137
+messagesGeneratorService = MessagesGeneratorService(total_messages=20,random_seed=random_seed)
 kaggle_file = './Server_source/data/kaggle_tweets_dataset.csv'
 kaggleDataLoadingService = KaggleDataLoadingService(path_to_kaggle_file=kaggle_file,no_rows_to_analysis=20)
 
