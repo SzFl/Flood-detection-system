@@ -4,8 +4,6 @@ from os.path import isfile, join
 import pandas as pd
 
 from models.PipeStage import PipeStage
-from models.FloodNo import FloodNo
-from models.FloodYes import FloodYes
 from facades.FloodReaderFacade import FloodReaderFacade
 
 class FloodCheckerService(PipeStage):
@@ -57,7 +55,9 @@ class FloodCheckerService(PipeStage):
             resp_df.to_csv(resp_path, index=False, encoding="utf-8",sep=';', quoting=1)
 
             print(f'[Info][FloodCheckerService] indentify_for_file() Ends: {file_name}')
-
+        except ConnectionError:
+            print('[Erro] Cannot connect to Ollama')
+            raise ConnectionError()
         except Exception as e:
             print(f'[Erro][FloodCheckerService] indentify_for_file() {e}') 
             print(f'Message: \"{message}\"')

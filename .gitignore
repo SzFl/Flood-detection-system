@@ -4,3 +4,4 @@ __init__.py
 *.csv
 .env
 /Analysis/.ipynb_checkpoints
+/Analysis/.venv

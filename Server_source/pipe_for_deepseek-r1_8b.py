@@ -11,9 +11,9 @@ from services.FloodCheckerService import FloodCheckerService
 
 # loaders preparation
 random_seed = 137
-messagesGeneratorService = MessagesGeneratorService(total_messages=20,random_seed=random_seed)
+messagesGeneratorService = MessagesGeneratorService(total_messages=200,random_seed=random_seed)
 kaggle_file = './Server_source/data/kaggle_tweets_dataset.csv'
-kaggleDataLoadingService = KaggleDataLoadingService(path_to_kaggle_file=kaggle_file,no_rows_to_analysis=20)
+kaggleDataLoadingService = KaggleDataLoadingService(path_to_kaggle_file=kaggle_file,no_rows_to_analysis=300)
 
 loaders = [messagesGeneratorService,kaggleDataLoadingService]
 
