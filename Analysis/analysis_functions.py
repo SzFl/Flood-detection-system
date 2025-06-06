@@ -33,8 +33,8 @@ def generate_conf_matrix(data:pd.DataFrame):
     cm_df = pd.crosstab(
         data['is_about_flood'],
         data['predictions'],
-        rownames=['Actual'],
-        colnames=['Predicted'],
+        rownames=['Klasa rzeczywista'],
+        colnames=['Klasa przewidywana'],
         dropna=False
     )
 
@@ -53,9 +53,9 @@ def generate_conf_matrix(data:pd.DataFrame):
     ax.set_yticklabels(labels)
     
     # Axis labels
-    ax.set_xlabel('Predicted')
-    ax.set_ylabel('Actual')
-    ax.set_title('Confusion Matrix')
+    ax.set_xlabel('Klasa przewidywana')
+    ax.set_ylabel('Klasa rzeczywista')
+    ax.set_title('Macierz pomyłek')
     
     # Annotate cells
     for i in range(len(labels)):
@@ -64,6 +64,16 @@ def generate_conf_matrix(data:pd.DataFrame):
     
     plt.tight_layout()
     plt.show()
+
+def change_to_polish(df:pd.DataFrame) -> pd.DataFrame:
+    new_df = df.rename(
+        columns={
+            'Source': 'Źródło danych', 
+            'Correct': 'Liczba poprawnych klasyfikacji', 
+            'Total': 'Liczba wiadomości',
+            'Ratio (Correct/Total)': 'Dokładność klasyfikacji'
+        }, inplace=False)
+    return new_df
 
 
 
